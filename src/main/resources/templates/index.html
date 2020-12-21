@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sales Manager</title>
+</head>
+<body>
+<div align="center">
+     <h1>Sales Manager</h1>
+     <h2>Products</h2>
+     <a href="new">Create New Product</a>
+    <br/><br/>
+     <table border ="1">
+         <thead>
+         <tr>
+             <th>Product ID</th>
+             <th>Name</th>
+             <th>Brand</th>
+             <th>Made In</th>
+             <th>Price</th>
+             <th>Actions</th>
+         </tr>
+         </thead>
+           <tr th:each="products: ${listProducts}">
+               <td th:text="${products.product_id}">Product ID</td>
+               <td th:text="${products.product_name}">Name</td>
+               <td th:text="${products.brand}">Brand</td>
+               <td th:text="${products.made_in}">Made in</td>
+               <td th:text="${products.price}">Price</td>
+               <td>
+                  <a th:href="@{'/edit/'+${products.product_id}}">Edit</a>
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                   <a th:href="@{'/delete/'+${products.product_id}}">Delete</a>
+               </td>
+           </tr>
+     </table>
+
+
+
+    <h2>Clients</h2>
+    <a href="new">Add New Customers</a>
+    <table border ="1">
+        <thead>
+        <tr>
+            <th>Customer ID</th>
+            <th>Name</th>
+            <th>Surname</th>
+            <th>Town</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tr th:each="customers: ${listCustomers}">
+            <td th:text="${customers.customer_id}">Customer ID</td>
+            <td th:text="${customers.first_name}">Name</td>
+            <td th:text="${customers.last_name}">Surname</td>
+            <td th:text="${customers.town}">Town</td>
+            <td>
+                <a th:href="@{'/edit/'+${customers.customer_id}}">Edit</a>
+                &nbsp;&nbsp;&nbsp;&nbsp;
+                <a th:href="@{'/delete/'+${customers.customer_id}}">Delete</a>
+            </td>
+        </tr>
+    </table>
+</div>
+</body>
+</html>
