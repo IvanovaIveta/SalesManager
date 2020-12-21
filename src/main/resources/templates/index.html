@@ -17,7 +17,7 @@
     </div>
      <h1>Sales Manager</h1>
      <h2>Products</h2>
-     <a href="new">Create New Product</a>
+     <a sec:authorize="hasAuthority('Admin')" href="new">Create New Product</a>
     <br/><br/>
      <table border ="1">
          <thead>
@@ -27,7 +27,7 @@
              <th>Brand</th>
              <th>Made In</th>
              <th>Price</th>
-             <th>Actions</th>
+             <th sec:authorize="hasAuthority('Admin')">Actions</th>
          </tr>
          </thead>
            <tr th:each="products: ${listProducts}">
@@ -36,7 +36,7 @@
                <td th:text="${products.brand}">Brand</td>
                <td th:text="${products.made_in}">Made in</td>
                <td th:text="${products.price}">Price</td>
-               <td>
+               <td sec:authorize="hasAuthority('Admin')">
                   <a th:href="@{'/edit/'+${products.product_id}}">Edit</a>
                     &nbsp;&nbsp;&nbsp;&nbsp;
                    <a th:href="@{'/delete/'+${products.product_id}}">Delete</a>
