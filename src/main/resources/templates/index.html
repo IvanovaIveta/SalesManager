@@ -27,6 +27,7 @@
              <th>Brand</th>
              <th>Made In</th>
              <th>Price</th>
+             <th>Quantity</th>
              <th sec:authorize="hasAuthority('Admin')">Actions</th>
          </tr>
          </thead>
@@ -36,6 +37,7 @@
                <td th:text="${products.brand}">Brand</td>
                <td th:text="${products.made_in}">Made in</td>
                <td th:text="${products.price}">Price</td>
+               <td th:text="${products.quantity}">Quantity</td>
                <td sec:authorize="hasAuthority('Admin')">
                   <a th:href="@{'/edit/'+${products.product_id}}">Edit</a>
                     &nbsp;&nbsp;&nbsp;&nbsp;
@@ -47,7 +49,7 @@
 
 
     <h2>Clients</h2>
-    <a href="new">Add New Customers</a>
+    <a sec:authorize="hasAuthority('Sales Representative')" href="new_customer">Add new Customer</a>
     <table border ="1">
         <thead>
         <tr>
@@ -55,7 +57,7 @@
             <th>Name</th>
             <th>Surname</th>
             <th>Town</th>
-            <th>Actions</th>
+            <th sec:authorize="hasAuthority('Sales Representative')" >Actions</th>
         </tr>
         </thead>
         <tr th:each="customers: ${listCustomers}">
@@ -63,13 +65,14 @@
             <td th:text="${customers.first_name}">Name</td>
             <td th:text="${customers.last_name}">Surname</td>
             <td th:text="${customers.town}">Town</td>
-            <td>
-                <a th:href="@{'/edit/'+${customers.customer_id}}">Edit</a>
+            <td sec:authorize="hasAuthority('Sales Representative')" >
+                <a th:href="@{'/edit_customer/'+${customers.customer_id}}">Edit</a>
                 &nbsp;&nbsp;&nbsp;&nbsp;
-                <a th:href="@{'/delete/'+${customers.customer_id}}">Delete</a>
+                <a th:href="@{'/delete_customer/'+${customers.customer_id}}">Delete</a>
             </td>
         </tr>
     </table>
+
 </div>
 </body>
 </html>
