@@ -1,12 +1,16 @@
 package com.example.SalesManagerProducts;
 
+import com.example.SalesManagerProducts.service.CustomersService;
+import com.example.SalesManagerProducts.service.ProductsService;
+import com.example.SalesManagerProducts.service.UserDetailsServiceImpl;
+import com.example.SalesManagerProducts.service.UsersService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.management.relation.RoleNotFoundException;
 import java.util.List;
 
 @Controller
@@ -17,13 +21,21 @@ public class AppController {
     @Autowired
     private CustomersService customers_service;
 
+    @Autowired
+    private UsersService usersService;
+
     @RequestMapping("/")
-    public String viewHomePage(Model model){
+    public String viewHomePage(Model model) throws RoleNotFoundException {
         List<Products> listProducts= service.listAll();
         model.addAttribute("listProducts", listProducts);
 
         List<Customers> listCustomers=customers_service.listAll();
         model.addAttribute("listCustomers", listCustomers);
+
+        List<Users> listUsers= usersService.listAll();
+     //List<Users> listUsers= (List<Users>) usersService.loadUserByRole(1);
+      model.addAttribute("listUsers", listUsers);
+
         return "index";
     }
 
@@ -39,6 +51,12 @@ public class AppController {
         model.addAttribute("customer", customer);
         return "new_customer";
     }
+    @RequestMapping("/newUserSR")
+    public String showNewUserSRForm(Model model){
+        Users user= new Users();
+        model.addAttribute("user", user);
+        return "newUserSR";
+    }
 
     @RequestMapping(value="/save", method = RequestMethod.POST)
     public String saveProduct(@ModelAttribute("product") Products product){
@@ -48,6 +66,11 @@ public class AppController {
     @RequestMapping(value="/save_customer", method = RequestMethod.POST)
     public String saveCustomer(@ModelAttribute("customer") Customers customers){
         customers_service.save(customers);
+        return "redirect:/";
+    }
+    @RequestMapping(value="/saveUserSR", method = RequestMethod.POST)
+    public String saveUserSR(@ModelAttribute("users") Users users){
+        usersService.save(users);
         return "redirect:/";
     }
 
@@ -68,6 +91,14 @@ public class AppController {
         mav.addObject("customers", customers);
         return mav;
     }
+    @RequestMapping("/editUserSR/{user_id}")
+    public ModelAndView showNewEditUserSRForm(@PathVariable(name="user_id") int user_id){
+        ModelAndView mav= new ModelAndView("editUserSR");
+
+        Users users= usersService.get(user_id);
+        mav.addObject("users", users);
+        return mav;
+    }
 
     @RequestMapping("/delete/{product_id}")
     public String deleteProduct(@PathVariable(name="product_id") Integer product_id){
@@ -80,6 +111,11 @@ public class AppController {
         customers_service.delete(customer_id);
         return "redirect:/";
 }
+    @RequestMapping("/deleteUserSR/{user_id}")
+    public String deleteUserSR(@PathVariable(name="user_id") Integer user_id){
+        usersService.delete(user_id);
+        return "redirect:/";
+    }
 
     @GetMapping("/403")
     public String error403(){
