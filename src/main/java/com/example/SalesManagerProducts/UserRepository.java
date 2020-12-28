@@ -11,4 +11,8 @@ public interface UserRepository extends CrudRepository<Users, Integer>, JpaRepos
 
     @Query("SELECT u FROM Users u WHERE u.username= :username")
     public Users getUserByUsername(@Param("username") String username);
+    
+     @Query("SELECT u FROM Users u JOIN u.roles as r WHERE r.roles_id=2")
+    public List<Users> getUsersByRoles();
 }
+
