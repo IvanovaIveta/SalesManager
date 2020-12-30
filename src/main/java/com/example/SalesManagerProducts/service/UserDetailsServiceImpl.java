@@ -43,25 +43,3 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         return new MyUserDetails(user);
       // return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), grantedAuthorities);
     }
-
-//    public UserDetails loadUserByUsernameAuthorities(String username) throws UsernameNotFoundException {
-//        Users user = userRepo.getUserByUsername(username);
-//
-//        Set<GrantedAuthority>grantedAuthorities = new HashSet<>();
-//        if(user == null){
-//            throw new UsernameNotFoundException("Could not find user");
-//        }
-//        return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), grantedAuthorities);
-//    }
-
-
-//    @Bean
-//    public UserDetails loadUserByRole(Integer roles_id) throws RoleNotFoundException {
-//        Users user=userRepo.findUserBySpecificRole(roles_id);
-//        if(user == null){
-//            throw new UsernameNotFoundException("Could not find user with this role.");
-//        }
-//        return new MyUserDetails(user);
-//
-//  }
-}
