@@ -1,12 +1,13 @@
 package com.example.SalesManagerProducts;
 
+
 import com.example.SalesManagerProducts.service.CustomersService;
 import com.example.SalesManagerProducts.service.ProductsService;
-import com.example.SalesManagerProducts.service.UserDetailsServiceImpl;
 import com.example.SalesManagerProducts.service.UsersService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -19,7 +20,7 @@ public class AppController {
     @Autowired
     private ProductsService service;
     @Autowired
-    private CustomersService customers_service;
+    private CustomersService customersService;
 
     @Autowired
     private UsersService usersService;
@@ -29,11 +30,12 @@ public class AppController {
         List<Products> listProducts= service.listAll();
         model.addAttribute("listProducts", listProducts);
 
-        List<Customers> listCustomers=customers_service.listAll();
+        List<Customers> listCustomers=customersService.listAll();
         model.addAttribute("listCustomers", listCustomers);
 
-        List<Users> listUsers= usersService.listAll();
-     //List<Users> listUsers= (List<Users>) usersService.loadUserByRole(1);
+     //  List<Users> listUsers= usersService.listAll();
+
+     List<Users> listUsers=  usersService.loadUserByRole();
       model.addAttribute("listUsers", listUsers);
 
         return "index";
@@ -55,6 +57,7 @@ public class AppController {
     public String showNewUserSRForm(Model model){
         Users user= new Users();
         model.addAttribute("user", user);
+
         return "newUserSR";
     }
 
@@ -65,11 +68,11 @@ public class AppController {
     }
     @RequestMapping(value="/save_customer", method = RequestMethod.POST)
     public String saveCustomer(@ModelAttribute("customer") Customers customers){
-        customers_service.save(customers);
+        customersService.save(customers);
         return "redirect:/";
     }
     @RequestMapping(value="/saveUserSR", method = RequestMethod.POST)
-    public String saveUserSR(@ModelAttribute("users") Users users){
+    public String saveUserSR(@ModelAttribute("users") @Validated Users users){
         usersService.save(users);
         return "redirect:/";
     }
@@ -87,7 +90,7 @@ public class AppController {
     public ModelAndView showNewEditCustomerForm(@PathVariable(name="customer_id") int customer_id){
         ModelAndView mav= new ModelAndView("edit_customer");
 
-        Customers customers= customers_service.get(customer_id);
+        Customers customers= customersService.get(customer_id);
         mav.addObject("customers", customers);
         return mav;
     }
@@ -95,6 +98,7 @@ public class AppController {
     public ModelAndView showNewEditUserSRForm(@PathVariable(name="user_id") int user_id){
         ModelAndView mav= new ModelAndView("editUserSR");
 
+      //  Users users= usersService.get(user_id);
         Users users= usersService.get(user_id);
         mav.addObject("users", users);
         return mav;
@@ -108,7 +112,7 @@ public class AppController {
 
     @RequestMapping("/delete_customer/{customer_id}")
     public String deleteCustomer(@PathVariable(name="customer_id") Integer customer_id){
-        customers_service.delete(customer_id);
+        customersService.delete(customer_id);
         return "redirect:/";
 }
     @RequestMapping("/deleteUserSR/{user_id}")
@@ -122,4 +126,9 @@ public class AppController {
         return "403";
     }
 
+    @RequestMapping("/newSale")
+    public String showNewSaleForm()
+   {
+        return "newSale";
+    }
 }
