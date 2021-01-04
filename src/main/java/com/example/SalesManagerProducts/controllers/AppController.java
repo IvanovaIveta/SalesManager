@@ -76,6 +76,9 @@ public class AppController {
     }
     @RequestMapping(value="/saveUserSR", method = RequestMethod.POST)
     public String saveUserSR(@ModelAttribute("users") @Validated Users users){
+        BCryptPasswordEncoder encoder= new BCryptPasswordEncoder();
+        String encodedPassword= encoder.encode(users.getPassword());
+        users.setPassword(encodedPassword);
         usersService.save(users);
         return "redirect:/";
     }
