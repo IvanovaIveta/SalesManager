@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0,minimum scale=1.0">
+    <title>Please Login</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+</head>
+<body>
+<div class="container-fluid alt-color text-center">
+<!--    <div>-->
+<!--        <img th:src="@{/images/salesmanager.png}"/>-->
+<!--    </div>-->
+    <form th:action="@{/login}" method="post" style="max-width:350px; margin:0 auto;">
+        <div th:if="${param.error}">
+           <p class="text-danger">Invalid username or password</p>
+        </div>
+        <div class ="border width=3 border-secondary p-3 rounded">
+            <p>Access to SalesManager Control Panel</p>
+        </div>
+        <div th:if="${param.logout}">
+            <p class="text-warning">You have been logged out.</p>
+        </div>
+        <p>
+            <input type="username" name="username" class="form-control" placeholder="Username" required autofocis/>
+        </p>
+        <p>
+            <input type="password" name="password" class="form-control" placeholder="Password" required autofocis/>
+        </p>
+        <p>
+            <input type="checkbox" name="remember-me"/> Remember me
+        </p>
+        <p>
+            <input type="submit" value="Login" class="btn btn-primary"/>
+        </p>
+
+    </form>
+
+</div>
+
+</body>
+</html>
