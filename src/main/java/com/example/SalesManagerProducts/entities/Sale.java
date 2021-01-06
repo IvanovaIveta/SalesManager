@@ -1,16 +1,72 @@
 package com.example.SalesManagerProducts.entities;
-//
-//import org.springframework.security.core.userdetails.User;
+
+import org.springframework.stereotype.Component;
+
+import javax.persistence.*;
+import java.io.Serializable;
+import java.time.LocalDate;
+import java.util.Date;
+
+@Entity
+@Table(name="sale")
+public class Sale{
+
+    @Id
+    @GeneratedValue(strategy =GenerationType.IDENTITY)
+    private Integer saleId;
+
+    private LocalDate date;
+    private Integer quantitySold;
+
+    @ManyToOne
+    @JoinColumn(name = "product_id")
+    private Products products;
+
+    public Integer getSaleId() {
+        return saleId;
+    }
+
+    public void setSaleId(Integer saleId) {
+        this.saleId = saleId;
+    }
+
+    public LocalDate getDate() {
+        return date;
+    }
+
+    public void setDate(LocalDate date) {
+        this.date = date;
+    }
+
+    public Products getProducts() {
+        return products;
+    }
+
+    public void setProducts(Products products) {
+        this.products = products;
+    }
+
+    public Integer getQuantitySold() {
+        return quantitySold;
+    }
+
+    public void setQuantitySold(Integer quantitySold) {
+        this.quantitySold = quantitySold;
+    }
+}
+//package com.example.SalesManagerProducts.entities;
 //
 //import javax.persistence.*;
+//import java.io.Serializable;
+//import java.time.LocalDate;
 //import java.util.Date;
 //
 //@Entity
 //@Table(name="sale")
-//public class Sale {
+//public class Sale implements Serializable {
 //
 //    private Integer saleId;
-//    private Date date;
+//    private LocalDate date;
 //
 //    @ManyToOne
 //    @JoinColumn(name = "product_id")
@@ -22,7 +78,7 @@ package com.example.SalesManagerProducts.entities;
 //    @JoinColumn(name="sales_representative_id")
 //    private Users user_id;
 //
-//    public Sale(Integer saleId, Date date, Products productId, Integer quantityProduct, Users user_id) {
+//    public Sale(Integer saleId, LocalDate date, Products productId, Integer quantityProduct, Users user_id) {
 //        this.saleId = saleId;
 //        this.date = date;
 //        this.productId = productId;
@@ -44,11 +100,11 @@ package com.example.SalesManagerProducts.entities;
 //        this.saleId = saleId;
 //    }
 //
-//    public Date getDate() {
+//    public LocalDate getDate() {
 //        return date;
 //    }
 //
-//    public void setDate(Date date) {
+//    public void setDate(LocalDate date) {
 //        this.date = date;
 //    }
 //
@@ -76,6 +132,59 @@ package com.example.SalesManagerProducts.entities;
 //        this.user_id = user_id;
 //    }
 //}
-       public class Sale {
 
-       }
+
+//       @Entity
+//       @Table(name="sale")
+//       public class Sale {
+//       @Id
+//       @GeneratedValue(strategy = GenerationType.IDENTITY)
+//       private Integer saleId;
+//
+//       @JsonFormat(pattern = "dd/MM/yy")
+//       private LocalDate date;
+//
+//       @JsonManagedReference
+//       @OneToMany(mappedBy = "saleId")
+//       @Valid
+//       private List<SaleProduct> saleProducts = new ArrayList<>();
+//
+//       @Transient
+//       public Double getTotalSalePrice() {
+//              double sum = 0D;
+//              List<SaleProduct> saleProducts = getSaleProducts();
+//              for (SaleProduct sp : saleProducts) {
+//                     sum += sp.getTotalPrice();
+//              }
+//              return sum;
+//       }
+//
+//       @Transient
+//       public int getNumberOfProducts(){
+//              return this.saleProducts.size();
+//       }
+//
+//       public Integer getSaleId() {
+//              return saleId;
+//       }
+//
+//       public void setSaleId(Integer saleId) {
+//              this.saleId = saleId;
+//       }
+//
+//       public LocalDate getDate() {
+//              return date;
+//       }
+//
+//       public void setDate(LocalDate date) {
+//              this.date = date;
+//       }
+//
+//       public List<SaleProduct> getSaleProducts() {
+//              return saleProducts;
+//       }
+//
+//       public void setSaleProducts(List<SaleProduct> saleProducts) {
+//              this.saleProducts = saleProducts;
+//       }
+//}
