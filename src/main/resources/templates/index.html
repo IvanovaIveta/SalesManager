@@ -49,7 +49,7 @@
 
 
     <h2>Clients</h2>
-    <a sec:authorize="hasAuthority('Sales Representative')" href="new_customer">Add new Customer</a>
+    <a sec:authorize="hasAuthority('SalesRepresentative')" href="new_customer">Add new Customer</a>
     <table border ="1">
         <thead>
         <tr>
@@ -57,7 +57,7 @@
             <th>Name</th>
             <th>Surname</th>
             <th>Town</th>
-            <th sec:authorize="hasAuthority('Sales Representative')" >Actions</th>
+            <th sec:authorize="hasAuthority('SalesRepresentative')" >Actions</th>
         </tr>
         </thead>
         <tr th:each="customers: ${listCustomers}">
@@ -65,13 +65,50 @@
             <td th:text="${customers.first_name}">Name</td>
             <td th:text="${customers.last_name}">Surname</td>
             <td th:text="${customers.town}">Town</td>
-            <td sec:authorize="hasAuthority('Sales Representative')" >
+            <td sec:authorize="hasAuthority('SalesRepresentative')" >
                 <a th:href="@{'/edit_customer/'+${customers.customer_id}}">Edit</a>
                 &nbsp;&nbsp;&nbsp;&nbsp;
                 <a th:href="@{'/delete_customer/'+${customers.customer_id}}">Delete</a>
             </td>
         </tr>
     </table>
+
+<!--     <div class="p-2">-->
+<!--         <a class="h2" th:href="@{/newUserSR}">Add new sales representative:</a>-->
+<!--     </div>-->
+    <h2>Sales Representatives</h2>
+    <a sec:authorize="hasAuthority('Admin')" href="newUserSR">Add new sales representative</a>
+    <table border ="1">
+        <thead>
+        <tr>
+            <th>Sales Representative ID</th>
+            <th>Name</th>
+            <th>Surname</th>
+            <th>Username</th>
+            <th>Password</th>
+<!--            <th>Role</th>-->
+            <th sec:authorize="hasAuthority('Admin')" >Actions</th>
+        </tr>
+        </thead>
+        <tr th:each="users: ${listUsers}">
+            <td th:text="${users.id}"> User ID:</td>
+            <td th:text="${users.name}">Name:</td>
+            <td th:text="${users.surname}">Surname</td>
+            <td th:text="${users.username}">Username</td>
+            <td th:text="${users.password}">Password</td>
+<!--            <td th:text="${users.roles}">Roles</td>"-->
+<!--           <td th:text="${users.roles}">Roles</td>-->
+            <td sec:authorize="hasAuthority('Admin')" >
+                <a th:href="@{'/editUserSR/'+${users.id}}">Edit</a>
+                &nbsp;&nbsp;&nbsp;&nbsp;
+                <a th:href="@{'/deleteUserSR/'+${users.id}}">Delete</a>
+            </td>
+        </tr>
+    </table>
+
+    <h2>Sales</h2>
+    <a sec:authorize="hasAuthority('SalesRepresentative')" href="newSale">Add new Sale</a>
+    
 
 </div>
 </body>
