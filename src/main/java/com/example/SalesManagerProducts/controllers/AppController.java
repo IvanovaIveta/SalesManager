@@ -1,13 +1,17 @@
 package com.example.SalesManagerProducts.controllers;
 
 
-import com.example.SalesManagerProducts.entities.Customers;
-import com.example.SalesManagerProducts.entities.Products;
-import com.example.SalesManagerProducts.entities.Users;
+import com.example.SalesManagerProducts.entities.*;
+import com.example.SalesManagerProducts.persistence.SalesRepository;
 import com.example.SalesManagerProducts.service.CustomersService;
 import com.example.SalesManagerProducts.service.ProductsService;
+import com.example.SalesManagerProducts.service.SalesService;
 import com.example.SalesManagerProducts.service.UsersService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;
@@ -28,18 +32,31 @@ public class AppController {
     @Autowired
     private UsersService usersService;
 
+    @Autowired
+    private SalesService salesService;
+
+//    @Autowired
+//    private SalesRepository salesRepo;
+
+
     @RequestMapping("/")
     public String viewHomePage(Model model) throws RoleNotFoundException {
-        List<Products> listProducts= service.listAll();
+        Iterable<Products> listProducts= service.listAll();
         model.addAttribute("listProducts", listProducts);
 
         List<Customers> listCustomers=customersService.listAll();
         model.addAttribute("listCustomers", listCustomers);
 
-     //  List<Users> listUsers= usersService.listAll();
+        //  List<Users> listUsers= usersService.listAll();
 
-     List<Users> listUsers=  usersService.loadUserByRole();
-      model.addAttribute("listUsers", listUsers);
+        List<Users> listUsers=  usersService.getRepresentatives();
+        model.addAttribute("listUsers", listUsers);
+
+//        List<Users> listUsers=  userService.getRepresentatives();
+//        model.addAttribute("listUsers", listUsers);
+
+//        List<Sale>listSales= salesService.listAll();
+//        model.addAttribute("listSales",listSales);
 
         return "index";
     }
@@ -56,16 +73,19 @@ public class AppController {
         model.addAttribute("customer", customer);
         return "new_customer";
     }
-    @RequestMapping("/newUserSR")
+    @RequestMapping ("/newUserSR")
     public String showNewUserSRForm(Model model){
-        Users user= new Users();
-        model.addAttribute("user", user);
+      //  Users user= new Users();
+        model.addAttribute("user", new Users());
+      //  model.addAttribute("user", user);
+        //model.addAttribute("roles_id", 2);
 
         return "newUserSR";
     }
 
     @RequestMapping(value="/save", method = RequestMethod.POST)
     public String saveProduct(@ModelAttribute("product") Products product){
+
         service.save(product);
         return "redirect:/";
     }
@@ -74,11 +94,12 @@ public class AppController {
         customersService.save(customers);
         return "redirect:/";
     }
-    @RequestMapping(value="/saveUserSR", method = RequestMethod.POST)
-    public String saveUserSR(@ModelAttribute("users") @Validated Users users){
-        BCryptPasswordEncoder encoder= new BCryptPasswordEncoder();
-        String encodedPassword= encoder.encode(users.getPassword());
-        users.setPassword(encodedPassword);
+    @PostMapping (value="/saveUserSR")
+    public String saveUserSR(@ModelAttribute("user") Users users){
+//        BCryptPasswordEncoder encoder= new BCryptPasswordEncoder();
+//        String encodedPassword= encoder.encode(users.getPassword());
+//        users.setPassword(encodedPassword);
+        //usersService.save(users);
         usersService.save(users);
         return "redirect:/";
     }
@@ -104,37 +125,63 @@ public class AppController {
     public ModelAndView showNewEditUserSRForm(@PathVariable(name="user_id") int user_id){
         ModelAndView mav= new ModelAndView("editUserSR");
 
-      //  Users users= usersService.get(user_id);
+        //  Users users= usersService.get(user_id);
         Users users= usersService.get(user_id);
         mav.addObject("users", users);
         return mav;
     }
 
-    @RequestMapping("/delete/{product_id}")
+    @GetMapping("/delete/{product_id}")
     public String deleteProduct(@PathVariable(name="product_id") Integer product_id){
         service.delete(product_id);
         return "redirect:/";
     }
 
-    @RequestMapping("/delete_customer/{customer_id}")
+    @GetMapping("/delete_customer/{customer_id}")
     public String deleteCustomer(@PathVariable(name="customer_id") Integer customer_id){
         customersService.delete(customer_id);
         return "redirect:/";
-}
-    @RequestMapping("/deleteUserSR/{user_id}")
+    }
+    @GetMapping("/deleteUserSR/{user_id}")
     public String deleteUserSR(@PathVariable(name="user_id") Integer user_id){
         usersService.delete(user_id);
+
         return "redirect:/";
     }
+
+//    @GetMapping("/decreaseAmount/{product_id}")
+//    public String decreaseAmount(@PathVariable(name="product_id") Integer product_id) throws Exception {
+//        salesService.decreaseAmount(products.getQuantity(),1);
+//        return "redirect:/";
+//    }
 
     @GetMapping("/403")
     public String error403(){
         return "403";
     }
 
-    @RequestMapping("/newSale")
-    public String showNewSaleForm()
-   {
-        return "newSale";
+
+    @GetMapping("/login")
+    public String showLoginPage(){
+        Authentication authentication= SecurityContextHolder.getContext().getAuthentication();
+        if(authentication==null || authentication instanceof AnonymousAuthenticationToken){
+            return "login";
+        }
+        return "redirect:/";
     }
+
+//    @GetMapping("/newSale")
+//    public String showNewSaleForm(Model model){
+//        List<Products>listProducts=service.listAll();
+//        model.addAttribute("sale", new Sale());
+//        model.addAttribute("listProducts", listProducts);
+//        return "newSale";
+//    }
+//
+//    @RequestMapping(value="/saveSale", method = RequestMethod.POST)
+//    public String saveSale(@ModelAttribute("sale") Sale sale){
+//        salesService.save(sale);
+//        return "redirect:/";
+//    }
+
 }
