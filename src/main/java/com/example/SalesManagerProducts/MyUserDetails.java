@@ -21,15 +21,15 @@ public class MyUserDetails implements UserDetails {
     @Transactional(readOnly = true)
     public Collection<? extends GrantedAuthority> getAuthorities() {
         Set<Role> roles= user.getRoles();
-       List<SimpleGrantedAuthority> authorities= new ArrayList<>();
+        List<SimpleGrantedAuthority> authorities= new ArrayList<>();
 
-       // Set<GrantedAuthority>grantedAuthorities= new HashSet<>();
+        // Set<GrantedAuthority>grantedAuthorities= new HashSet<>();
         for(Role role: roles){
             authorities.add(new SimpleGrantedAuthority(role.getName()));
         }
         return authorities;
     }
-       // return (Collection<? extends GrantedAuthority>) new User(user.getUsername(), user.getPassword(), grantedAuthorities);
+   
 
 
     @Override
@@ -59,6 +59,7 @@ public class MyUserDetails implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return user.isEnabled();
+       return true;
     }
 }
+
