@@ -18,47 +18,48 @@ public class Sale {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer saleId;
+    private Integer sale_id;
 
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     @Column(name = "date")
 //    @DateTimeFormat(pattern="yyyy/MM/dd")
     private Date dateSold;
 
-    @Column(name = "quantity_sold", nullable = false)
+    @Column(name = "quantity_sold")
     private Integer quantity_sold;
 
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "productId", referencedColumnName = "product_id")
+    @JoinColumn(name = "product", referencedColumnName = "product_id")
 //   private Products product;
-    private Integer productId;
+    private Products product;
 
     @ManyToOne
-    @JoinColumn(name = "clientId")
+    @JoinColumn(name = "client")
     private Customers buyer;
 
     @ManyToOne
+    @JoinColumn(name="sales_representative_id")
     private Users salesRepresentative;
 
     public Sale() {
 
     }
 
-    public Sale(Integer saleId, Date dateSold, Integer quantitySold, Integer productId, Customers buyer, Users salesRepresentative) {
-        this.saleId = saleId;
+    public Sale(Integer sale_id, Date dateSold, Integer quantity_sold, Products product, Customers buyer, Users salesRepresentative) {
+        this.sale_id = sale_id;
         this.dateSold = dateSold;
-        this.quantitySold = quantitySold;
-        this.productId= productId;
+        this.quantity_sold = quantity_sold;
+        this.product = product;
         this.buyer = buyer;
         this.salesRepresentative = salesRepresentative;
     }
 
-    public Integer getSaleId() {
-        return saleId;
+    public Integer getSale_id() {
+        return sale_id;
     }
 
-    public void setSaleId(Integer saleId) {
-        this.saleId = saleId;
+    public void setSale_id(Integer sale_id) {
+        this.sale_id = sale_id;
     }
 
     public Date getDateSold() {
@@ -69,29 +70,21 @@ public class Sale {
         this.dateSold = dateSold;
     }
 
-    public Integer getQuantitySold() {
-        return quantitySold;
+    public Integer getQuantity_sold() {
+        return quantity_sold;
     }
 
-    public void setQuantitySold(Integer quantitySold) {
-        this.quantitySold = quantitySold;
+    public void setQuantity_sold(Integer quantity_sold) {
+        this.quantity_sold = quantity_sold;
     }
 
-    public Integer getProductId() {
-        return productId;
+    public Products getProduct() {
+        return product;
     }
 
-    public void setProductId(Integer productId) {
-        this.productId = productId;
+    public void setProduct(Products product) {
+        this.product = product;
     }
-
-    //    public Products getProduct() {
-//        return product;
-//    }
-//
-//    public void setProduct(Products product) {
-//        this.product = product;
-//    }
 
     public Customers getBuyer() {
         return buyer;
@@ -108,160 +101,14 @@ public class Sale {
     public void setSalesRepresentative(Users salesRepresentative) {
         this.salesRepresentative = salesRepresentative;
     }
+    //    public Products getProduct() {
+//        return product;
+//    }
+//
+//    public void setProduct(Products product) {
+//        this.product = product;
+//    }
+
+
 
 }
-
-    public void setDate(LocalDate date) {
-        this.date = date;
-    }
-
-    public Products getProducts() {
-        return products;
-    }
-
-    public void setProducts(Products products) {
-        this.products = products;
-    }
-
-    public Integer getQuantitySold() {
-        return quantitySold;
-    }
-
-    public void setQuantitySold(Integer quantitySold) {
-        this.quantitySold = quantitySold;
-    }
-}
-//package com.example.SalesManagerProducts.entities;
-//
-//import javax.persistence.*;
-//import java.io.Serializable;
-//import java.time.LocalDate;
-//import java.util.Date;
-//
-//@Entity
-//@Table(name="sale")
-//public class Sale implements Serializable {
-//
-//    private Integer saleId;
-//    private LocalDate date;
-//
-//    @ManyToOne
-//    @JoinColumn(name = "product_id")
-//    private Products productId;
-//
-//    private Integer quantityProduct;
-//
-//    @ManyToOne
-//    @JoinColumn(name="sales_representative_id")
-//    private Users user_id;
-//
-//    public Sale(Integer saleId, LocalDate date, Products productId, Integer quantityProduct, Users user_id) {
-//        this.saleId = saleId;
-//        this.date = date;
-//        this.productId = productId;
-//        this.quantityProduct = quantityProduct;
-//        this.user_id = user_id;
-//    }
-//
-//    public Sale() {
-//
-//    }
-//
-//    @Id
-//    @GeneratedValue(strategy = GenerationType.IDENTITY)
-//    public Integer getSaleId() {
-//        return saleId;
-//    }
-//
-//    public void setSaleId(Integer saleId) {
-//        this.saleId = saleId;
-//    }
-//
-//    public LocalDate getDate() {
-//        return date;
-//    }
-//
-//    public void setDate(LocalDate date) {
-//        this.date = date;
-//    }
-//
-//    public Products getProductId() {
-//        return productId;
-//    }
-//
-//    public void setProductId(Products productId) {
-//        this.productId = productId;
-//    }
-//
-//    public Integer getQuantityProduct() {
-//        return quantityProduct;
-//    }
-//
-//    public void setQuantityProduct(Integer quantityProduct) {
-//        this.quantityProduct = quantityProduct;
-//    }
-//
-//    public Users getUser_id() {
-//        return user_id;
-//    }
-//
-//    public void setUser_id(Users user_id) {
-//        this.user_id = user_id;
-//    }
-//}
-
-
-//       @Entity
-//       @Table(name="sale")
-//       public class Sale {
-//       @Id
-//       @GeneratedValue(strategy = GenerationType.IDENTITY)
-//       private Integer saleId;
-//
-//       @JsonFormat(pattern = "dd/MM/yy")
-//       private LocalDate date;
-//
-//       @JsonManagedReference
-//       @OneToMany(mappedBy = "saleId")
-//       @Valid
-//       private List<SaleProduct> saleProducts = new ArrayList<>();
-//
-//       @Transient
-//       public Double getTotalSalePrice() {
-//              double sum = 0D;
-//              List<SaleProduct> saleProducts = getSaleProducts();
-//              for (SaleProduct sp : saleProducts) {
-//                     sum += sp.getTotalPrice();
-//              }
-//              return sum;
-//       }
-//
-//       @Transient
-//       public int getNumberOfProducts(){
-//              return this.saleProducts.size();
-//       }
-//
-//       public Integer getSaleId() {
-//              return saleId;
-//       }
-//
-//       public void setSaleId(Integer saleId) {
-//              this.saleId = saleId;
-//       }
-//
-//       public LocalDate getDate() {
-//              return date;
-//       }
-//
-//       public void setDate(LocalDate date) {
-//              this.date = date;
-//       }
-//
-//       public List<SaleProduct> getSaleProducts() {
-//              return saleProducts;
-//       }
-//
-//       public void setSaleProducts(List<SaleProduct> saleProducts) {
-//              this.saleProducts = saleProducts;
-//       }
-//}
