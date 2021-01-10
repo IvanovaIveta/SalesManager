@@ -10,12 +10,21 @@ public class Customers {
         private String first_name;
         private String last_name;
         private String town;
+        private String phonenumber;
 
         public Customers(){
             super();
         }
 
-        @Id
+    public Customers(Integer customer_id, String first_name, String last_name, String town, String phonenumber) {
+        this.customer_id = customer_id;
+        this.first_name = first_name;
+        this.last_name = last_name;
+        this.town = town;
+        this.phonenumber = phonenumber;
+    }
+
+    @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         public Integer getCustomer_id() {
             return customer_id;
@@ -49,4 +58,11 @@ public class Customers {
             this.town = town;
         }
 
+    public String getPhonenumber() {
+        return phonenumber;
+    }
+
+    public void setPhonenumber(String phonenumber) {
+        this.phonenumber = phonenumber;
+    }
 }
