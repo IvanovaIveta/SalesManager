@@ -26,16 +26,16 @@
            <div class="form-group row">
            <label class="col-form-label com-sm-4 center">Quantity:</label>
            <div class="col-sm-8">
-               <input type="textr" step="1" th:field="*{quantitySold}">
+               <input type="textr" step="1" th:field="*{quantity_sold}" required>
 
            </div>
            </div>
            <div class="form-group row">
            <label class="col-form-label com-sm-4">Product:</label>
            <div class="col-sm-8">
-               <select th:field="*{productId}" class="form-control" required>
+               <select th:field="*{product}" class="form-control" required>
                     <th:block th:each="prod:${listProducts}">
-                   <option th:text="${prod.product_name}" th:value="${prod.product_id}"/>
+                   <option th:text="${prod.product_name}" th:value="${prod.product_id}"> </option>
                     </th:block>
                </select>
            </div>
@@ -58,4 +58,4 @@
 
 
 </body>
-</html>
+           </html>
