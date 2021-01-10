@@ -67,6 +67,6 @@ public class Products {
         this.quantity = quantity;
     }
 
-    @OneToMany(mappedBy = "product_id")
-    private List<Products> products;
+//    @OneToMany(mappedBy = "product_id")
+//    private List<Sale>sales;
 }
