@@ -1,26 +1,57 @@
 package com.example.SalesManagerProducts.entities;
 
+//
+//import org.springframework.security.core.userdetails.User;
+
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
-import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Entity
-@Table(name="sale")
-public class Sale{
+@Table(name = "sale")
+public class Sale {
 
     @Id
-    @GeneratedValue(strategy =GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer saleId;
 
-    private LocalDate date;
-    private Integer quantitySold;
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+    @Column(name = "date")
+//    @DateTimeFormat(pattern="yyyy/MM/dd")
+    private Date dateSold;
+
+    @Column(name = "quantity_sold", nullable = false)
+    private Integer quantity_sold;
+
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "productId", referencedColumnName = "product_id")
+//   private Products product;
+    private Integer productId;
 
     @ManyToOne
-    @JoinColumn(name = "product_id")
-    private Products products;
+    @JoinColumn(name = "clientId")
+    private Customers buyer;
+
+    @ManyToOne
+    private Users salesRepresentative;
+
+    public Sale() {
+
+    }
+
+    public Sale(Integer saleId, Date dateSold, Integer quantitySold, Integer productId, Customers buyer, Users salesRepresentative) {
+        this.saleId = saleId;
+        this.dateSold = dateSold;
+        this.quantitySold = quantitySold;
+        this.productId= productId;
+        this.buyer = buyer;
+        this.salesRepresentative = salesRepresentative;
+    }
 
     public Integer getSaleId() {
         return saleId;
@@ -30,9 +61,55 @@ public class Sale{
         this.saleId = saleId;
     }
 
-    public LocalDate getDate() {
-        return date;
+    public Date getDateSold() {
+        return dateSold;
     }
+
+    public void setDateSold(Date dateSold) {
+        this.dateSold = dateSold;
+    }
+
+    public Integer getQuantitySold() {
+        return quantitySold;
+    }
+
+    public void setQuantitySold(Integer quantitySold) {
+        this.quantitySold = quantitySold;
+    }
+
+    public Integer getProductId() {
+        return productId;
+    }
+
+    public void setProductId(Integer productId) {
+        this.productId = productId;
+    }
+
+    //    public Products getProduct() {
+//        return product;
+//    }
+//
+//    public void setProduct(Products product) {
+//        this.product = product;
+//    }
+
+    public Customers getBuyer() {
+        return buyer;
+    }
+
+    public void setBuyer(Customers buyer) {
+        this.buyer = buyer;
+    }
+
+    public Users getSalesRepresentative() {
+        return salesRepresentative;
+    }
+
+    public void setSalesRepresentative(Users salesRepresentative) {
+        this.salesRepresentative = salesRepresentative;
+    }
+
+}
 
     public void setDate(LocalDate date) {
         this.date = date;
