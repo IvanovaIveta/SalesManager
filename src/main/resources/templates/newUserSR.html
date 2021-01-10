@@ -8,27 +8,32 @@
 <div align="center">
     <h1>Add new Sales Representative</h1>
     <br/>
-    <form action="#" th:action="@{/saveUserSR}" th:object="${user}" method="post">
+    <form action="#" th:action="@{/saveUserSR}" th:object="${user}", method="post">
         <table border="0" cellpadding="10">
             <tr>
                 <td>Name:</td>
-                <td><input type="text"th:field="*{name}"/></td>
+                <td><input type="text" th:field="*{name}" required minlength="2" maxlength="20"/></td>
             </tr>
             <tr>
                 <td>Surname:</td>
-                <td><input type="text"th:field="*{surname}"/></td>
+                <td><input type="text"th:field="*{surname}"required minlength="2" maxlength="20"/></td>
             </tr>
             <tr>
                 <td>Username:</td>
-                <td><input type="text"th:field="*{username}"/></td>
+                <td><input type="text" th:field="*{username}"required/></td>
             </tr>
             <tr>
                 <td>Password:</td>
-                <td><input type="text"th:field="*{password}"/></td>
+                <td><input type="password"th:field="*{password}"required minlength="6" maxlength="10"/></td>
             </tr>
-            <tr>
-                <td>Role:</td>
-                <td><input type="text"th:field="*{password}"/></td>
+
+<!--            <select th:field="*{id}">-->
+<!--                <option value="#" disabled = "disabled" selected="selected">Role...</option>-->
+<!--               <option th:each="r : ${user.getRoles()}" th:value="${user.getRoles()}" th:text="${r.roles_id}">2</option>-->
+<!--            </select>-->
+<!--            <tr>-->
+<!--                <td>Role:</td>-->
+<!--            <td><input type="text"th:field="*{roles}" readonly></td>&ndash;&gt;&ndash;&gt;-->
             </tr>
             <tr>
                 <td colspan="2"><button type="submit">Save</button></td>
