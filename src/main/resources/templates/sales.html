@@ -4,8 +4,6 @@
     <meta charset="UTF-8">
     <title>List Sales</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-
-    <!--    <link rel="stylesheet" type="text/css" th:href="@{webjars/boot/bootstrap/css/bootstrap/min/css}"-->
 </head>
 <body>
 <div class="container text-center">
@@ -16,11 +14,11 @@
     <div>&nbsp;</div>
     <div>
         <form th:action="@{/sales}">
-            Filter:<input type="text" name="keyword" th:value="${keyword}" required/>
+            Sales representative:<input type="text" name="keyword" th:value="${keyword}" required/>
             &nbsp;
             <input type="submit" value="Search"/>
             &nbsp;
-            <input type="button" value="Clear"/>
+            <input type="button" value="Clear" onclick="clearFilter()"/>
         </form>
     </div>
     <div>&nbsp</div>
@@ -56,5 +54,10 @@
 <!--        </td>-->
     </tr>
 </table>
+        <script type="text/javascript">
+            function clearFilter(){
+                window.location='/sales';
+            }
+        </script>
 </body>
 </html>
