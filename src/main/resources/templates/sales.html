@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>List Sales</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+
+    <!--    <link rel="stylesheet" type="text/css" th:href="@{webjars/boot/bootstrap/css/bootstrap/min/css}"-->
+</head>
+<body>
+<div class="container text-center">
+    <div>
+        <h1>Sale List</h1>
+    </div>
+    <bod class="table table-bordered">
+<table border ="1" class="table table-striped table-responsive-md ui-widget">
+    <thead class="dark">
+    <tr>
+        <th>Sale ID</th>
+        <th>Sales Representative:</th>
+        <th>Date:</th>
+        <th>Quantity:</th>
+        <th>Client:</th>
+        <th>Product:</th>
+        <th>Price:</th>
+    </tr>
+    </thead>
+    <tr th:each="sales: ${listSales}">
+        <td th:text="${sales.sale_id}">Sale ID</td>
+        <td th:text="${sales.salesRepresentative}">Sales Representative:</td>
+        <td th:text="${sales.dateSold}">Date:</td>
+        <td th:text="${sales.quantity_sold}">Quantity:</td>
+        <td th:text="${sales.buyer.first_name}+${sales.buyer.last_name}">Client:</td>
+        <td th:text="${sales.product.product_name}">Product:</td>
+        <td th:text="${sales.product.price}">Price:</td>
+
+<!--        <td>-->
+<!--            <a th:href="@{'/edit/'+${products.product_id}}"class="btn btn-primary width=80px">Update</a>-->
+<!--            &nbsp;&nbsp;&nbsp;&nbsp;-->
+<!--            <a th:href="@{'/delete/'+${products.product_id}}" class="btn btn-danger width=80px">Delete</a>-->
+<!--            &nbsp; &nbsp;-->
+<!--            <a th:href="@{'/decreaseAmount/'+${products.product_id}}" class="btn btn-primary">Buy</a>&ndash;&gt;-->
+<!--        </td>-->
+    </tr>
+</table>
+</body>
+</html>
