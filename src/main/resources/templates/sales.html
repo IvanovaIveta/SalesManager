@@ -9,12 +9,25 @@
 </head>
 <body>
 <div class="container text-center">
-    <div>
-        <h1>Sale List</h1>
+    <div sec:authorize="hasAuthority('Admin')">
+        <h1>Sales List</h1>
     </div>
+
+    <div>&nbsp;</div>
+    <div>
+        <form th:action="@{/sales}">
+            Filter:<input type="text" name="keyword" th:value="${keyword}" required/>
+            &nbsp;
+            <input type="submit" value="Search"/>
+            &nbsp;
+            <input type="button" value="Clear"/>
+        </form>
+    </div>
+    <div>&nbsp</div>
+
     <bod class="table table-bordered">
 <table border ="1" class="table table-striped table-responsive-md ui-widget">
-    <thead class="dark">
+    <thead>
     <tr>
         <th>Sale ID</th>
         <th>Sales Representative:</th>
@@ -22,7 +35,7 @@
         <th>Quantity:</th>
         <th>Client:</th>
         <th>Product:</th>
-        <th>Price:</th>
+        <th>Price(1 item):</th>
     </tr>
     </thead>
     <tr th:each="sales: ${listSales}">
