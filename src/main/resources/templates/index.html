@@ -106,30 +106,3 @@
             </td>
         </tr>
     </table>
-
-    <h2>Sales</h2>
-    <a sec:authorize="hasAuthority('SalesRepresentative')" href="newSale" class="btn btn-primary btn-sm mb-3">Add new Sale</a>
-<!--        <thead>-->
-<!--        <tr>-->
-<!--            <th>Sale Id:</th>-->
-<!--            <th>Name</th>-->
-<!--            <th>Surname</th>-->
-<!--            <th>Town</th>-->
-<!--            <th sec:authorize="hasAuthority('SalesRepresentative')" >Actions</th>-->
-<!--        </tr>-->
-<!--        </thead>-->
-<!--        <tr th:each="sales: ${listSale}">-->
-<!--            <td th:text="${sales.sale_id}">Customer ID</td>-->
-<!--            <td th:text="${customers.first_name}">Name</td>-->
-<!--            <td th:text="${customers.last_name}">Surname</td>-->
-<!--            <td th:text="${customers.town}">Town</td>-->
-<!--            <td sec:authorize="hasAuthority('SalesRepresentative')" >-->
-<!--                <a th:href="@{'/edit_customer/'+${customers.customer_id}}" class="btn btn-primary width=80px badge-pill" >Update  &nbsp;&nbsp;&nbsp;&nbsp;</a>-->
-<!--                &nbsp;&nbsp;&nbsp;&nbsp;-->
-<!--                <a th:href="@{'/delete_customer/'+${customers.customer_id}}" class="btn btn-danger width=80px badge-pill">Delete</a>-->
-<!--            </td>-->
-<!--        </tr>-->
-<!--    </table>-->
-</div>
-</body>
-</html>
