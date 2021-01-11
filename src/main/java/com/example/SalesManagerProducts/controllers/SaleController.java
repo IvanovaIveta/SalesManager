@@ -1,149 +1,86 @@
 package com.example.SalesManagerProducts.controllers;
 
-
-import com.example.SalesManagerProducts.entities.*;
+import com.example.SalesManagerProducts.entities.Customers;
+import com.example.SalesManagerProducts.entities.Products;
+import com.example.SalesManagerProducts.entities.Sale;
+import com.example.SalesManagerProducts.entities.Users;
+import com.example.SalesManagerProducts.persistence.CustomersRepository;
+import com.example.SalesManagerProducts.persistence.ProductsRepository;
 import com.example.SalesManagerProducts.persistence.SalesRepository;
-import com.example.SalesManagerProducts.service.CustomersService;
+import com.example.SalesManagerProducts.persistence.UserRepository;
 import com.example.SalesManagerProducts.service.ProductsService;
 import com.example.SalesManagerProducts.service.SalesService;
-import com.example.SalesManagerProducts.service.UsersService;
+import org.apache.tomcat.util.http.parser.MediaType;
+import org.apache.tomcat.util.net.openssl.ciphers.Authentication;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.AnonymousAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.data.repository.query.Param;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
 
-import javax.management.relation.RoleNotFoundException;
+import javax.management.modelmbean.ModelMBeanOperationInfo;
 import java.util.List;
 
 @Controller
-public class AppController {
+public class SaleController {
 
     @Autowired
-    private ProductsService service;
+    private SalesService salesService;
 
     @Autowired
-    private CustomersService customersService;
+    private ProductsRepository productRepo;
 
     @Autowired
-    private UsersService usersService;
+    private CustomersRepository customersRepo;
 
+    @Autowired
+    private SalesRepository salesRepo;
 
-    @RequestMapping("/")
-    public String viewHomePage(Model model) throws RoleNotFoundException {
-        Iterable<Products> listProducts = service.listAll();
+    @Autowired
+    private UserRepository userRepo;
+
+    @GetMapping("/newSale")
+    public String showNewSaleForm(Model model){
+        List<Products> listProducts=productRepo.findAll();
+        model.addAttribute("sale", new Sale());
         model.addAttribute("listProducts", listProducts);
-
-        List<Customers> listCustomers = customersService.listAll();
+        List<Customers> listCustomers=customersRepo.findAll();
         model.addAttribute("listCustomers", listCustomers);
 
-        List<Users> listUsers = usersService.getRepresentatives();
-        model.addAttribute("listUsers", listUsers);
-
-        return "index";
+//        Users user=request.getUserPrincipal().getName();
+        return "newSale";
     }
 
-    @RequestMapping("/new")
-    public String showNewProductForm(Model model) {
-        Products product = new Products();
-        model.addAttribute("product", product);
-        return "new_product";
-    }
 
-    @RequestMapping("/new_customer")
-    public String showNewCustomerForm(Model model) {
-        Customers customer = new Customers();
-        model.addAttribute("customer", customer);
-        return "new_customer";
-    }
+    @PostMapping("/saveSale")
+    public String saveSale(Sale sale) throws Exception {
 
-    @RequestMapping("/newUserSR")
-    public String showNewUserSRForm(Model model) {
-        model.addAttribute("user", new Users());
-        return "newUserSR";
-    }
-
-    @RequestMapping(value = "/save", method = RequestMethod.POST)
-    public String saveProduct(@ModelAttribute("product") Products product) {
-
-        service.save(product);
+        salesService.save(sale);
         return "redirect:/";
     }
 
-    @RequestMapping(value = "/save_customer", method = RequestMethod.POST)
-    public String saveCustomer(@ModelAttribute("customer") Customers customers) {
-        customersService.save(customers);
-        return "redirect:/";
+    @GetMapping("/sales")
+    public String listSales(Model model, @Param("keyword") String keyword){
+        List<Sale>listSales=salesService.listAll(keyword);
+        model.addAttribute("listSales",listSales);
+        model.addAttribute("keyword", keyword);
+        return "sales";
     }
 
-    @PostMapping(value = "/saveUserSR")
-    public String saveUserSR(@ModelAttribute("user") Users users) {
-        usersService.save(users);
-        return "redirect:/";
+    @GetMapping("/salesSR")
+    public String listSalesSR(Model model){
+        String keyword=salesService.getUsername();
+        List<Sale>listSales=salesService.listAll(keyword);
+        model.addAttribute("listSales",listSales);
+        model.addAttribute("keyword", keyword);
+        return "salesSR";
     }
 
-    @RequestMapping("/edit/{product_id}")
-    public ModelAndView showNewEditForm(@PathVariable(name = "product_id") int product_id) {
-        ModelAndView mav = new ModelAndView("edit_product");
 
-        Products product = service.get(product_id);
-        mav.addObject("product", product);
-        return mav;
-    }
-
-    @RequestMapping("/edit_customer/{customer_id}")
-    public ModelAndView showNewEditCustomerForm(@PathVariable(name = "customer_id") int customer_id) {
-        ModelAndView mav = new ModelAndView("edit_customer");
-
-        Customers customers = customersService.get(customer_id);
-        mav.addObject("customers", customers);
-        return mav;
-    }
-
-    @RequestMapping("/editUserSR/{user_id}")
-    public ModelAndView showNewEditUserSRForm(@PathVariable(name = "user_id") int user_id) {
-        ModelAndView mav = new ModelAndView("editUserSR");
-
-        //  Users users= usersService.get(user_id);
-        Users users = usersService.get(user_id);
-        mav.addObject("users", users);
-        return mav;
-    }
-
-    @GetMapping("/delete/{product_id}")
-    public String deleteProduct(@PathVariable(name = "product_id") Integer product_id) {
-        service.delete(product_id);
-        return "redirect:/";
-    }
-
-    @GetMapping("/delete_customer/{customer_id}")
-    public String deleteCustomer(@PathVariable(name = "customer_id") Integer customer_id) {
-        customersService.delete(customer_id);
-        return "redirect:/";
-    }
-
-    @GetMapping("/deleteUserSR/{user_id}")
-    public String deleteUserSR(@PathVariable(name = "user_id") Integer user_id) {
-        usersService.delete(user_id);
-
-        return "redirect:/";
-    }
-
-//    @GetMapping("/decreaseAmount/{product_id}")
-//    public String decreaseAmount(@PathVariable(name="product_id") Integer product_id) throws Exception {
-//        salesService.decreaseAmount(products.getQuantity(),1);
-//        return "redirect:/";
+//    @RequestMapping(method = RequestMethod.POST)
+//    public String sellProduct(@RequestBody SaleModel sale, Authentication authentication){
+//         Users salesRepresentative= userRepo.getUserByUsername(get
 //    }
-
-    @GetMapping("/403")
-    public String error403() {
-        return "403";
-    }
-
 
 }
