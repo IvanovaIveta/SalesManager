@@ -47,7 +47,7 @@
                     &nbsp;&nbsp;&nbsp;&nbsp;
                    <a th:href="@{'/delete/'+${products.product_id}}" class="btn btn-danger width=80px">Delete</a>
                       &nbsp; &nbsp;
-                  <a th:href="@{'/decreaseAmount/'+${products.product_id}}" class="btn btn-primary">Buy</a>-->
+<!--                  <a th:href="@{'/decreaseAmount/'+${products.product_id}}" class="btn btn-primary">Buy</a>&ndash;&gt;-->
                </td>
            </tr>
      </table>
@@ -106,3 +106,14 @@
             </td>
         </tr>
     </table>
+
+    <h2>Sales</h2>
+    <a sec:authorize="hasAuthority('SalesRepresentative')" href="newSale" class="btn btn-primary btn-sm mb-3">Add new Sale</a>
+<!--    <a sec:authorize="hasAuthority('Admin')" href="sales" class="btn btn-primary btn-sm mb-3">Sales catalogue</a>-->
+    <a sec:authorize="hasAuthority('Admin')" href="sales" class="btn btn-primary btn-sm mb-3">Sales catalogue</a>
+
+    <a sec:authorize="hasAuthority('SalesRepresentative')" href="salesSR" class="btn btn-primary btn-sm mb-3"> My sale catalogue</a>
+
+</div>
+</body>
+</html>
