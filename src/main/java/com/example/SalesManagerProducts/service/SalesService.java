@@ -41,7 +41,6 @@ public class SalesService {
 //        salesRepo.save(sale);
 //    }
 
-    Date date= new Date(System.currentTimeMillis());
     public void save(Sale sale){
         Sale sale1=new Sale(sale.getSale_id(),sale.getDateSold(),sale.getQuantity_sold(),sale.getProduct(),sale.getBuyer(),getUsername());
         salesRepo.save(sale1);
