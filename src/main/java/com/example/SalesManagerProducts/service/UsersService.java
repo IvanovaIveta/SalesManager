@@ -1,9 +1,12 @@
 package com.example.SalesManagerProducts.service;
 
 
+<<<<<<< Updated upstream
 import com.example.SalesManagerProducts.entities.Role;
 import com.example.SalesManagerProducts.entities.Users;
 import com.example.SalesManagerProducts.persistence.RoleRepository;
+=======
+>>>>>>> Stashed changes
 import com.example.SalesManagerProducts.persistence.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;

@@ -1,8 +1,13 @@
 package com.example.SalesManagerProducts.controllers;
 
 
+<<<<<<< Updated upstream
 import com.example.SalesManagerProducts.entities.*;
 import com.example.SalesManagerProducts.persistence.SalesRepository;
+=======
+import com.example.SalesManagerProducts.entities.Customers;
+import com.example.SalesManagerProducts.entities.Products;
+>>>>>>> Stashed changes
 import com.example.SalesManagerProducts.service.CustomersService;
 import com.example.SalesManagerProducts.service.ProductsService;
 import com.example.SalesManagerProducts.service.SalesService;

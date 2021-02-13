@@ -1,7 +1,6 @@
 package com.example.SalesManagerProducts;
 
 import com.example.SalesManagerProducts.entities.Role;
-import com.example.SalesManagerProducts.entities.Users;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;

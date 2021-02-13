@@ -1,7 +1,10 @@
 package com.example.SalesManagerProducts.persistence;
 
+<<<<<<< Updated upstream
 import com.example.SalesManagerProducts.entities.Users;
 import org.hibernate.annotations.Parameter;
+=======
+>>>>>>> Stashed changes
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;

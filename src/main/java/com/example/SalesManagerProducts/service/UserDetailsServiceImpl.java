@@ -2,7 +2,6 @@ package com.example.SalesManagerProducts.service;
 
 import com.example.SalesManagerProducts.MyUserDetails;
 import com.example.SalesManagerProducts.entities.Role;
-import com.example.SalesManagerProducts.entities.Users;
 import com.example.SalesManagerProducts.persistence.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
