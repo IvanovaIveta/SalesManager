@@ -19,15 +19,10 @@ public interface UserRepository extends JpaRepository<Users, Integer> {
     @Query("SELECT u FROM Users u WHERE u.username= :username")
     public Users getUserByUsername(@Param("username") String username);
 
-//    @Query("SELECT u FROM Users u JOIN u.roles as r WHERE r.roles_id=2")
-//    public List<Users> getSalesRepresentatives();
-
     @Query("SELECT u FROM Users u JOIN u.roles as r WHERE r.name=:name")
     public List<Users> getUsersByRole(@Param("name")String name);
 
-}
+  }
 
-
-//
 }
 
