@@ -48,7 +48,6 @@ public class SaleController {
         List<Customers> listCustomers=customersRepo.findAll();
         model.addAttribute("listCustomers", listCustomers);
 
-//        Users user=request.getUserPrincipal().getName();
         return "newSale";
     }
 
@@ -77,10 +76,5 @@ public class SaleController {
         return "salesSR";
     }
 
-
-//    @RequestMapping(method = RequestMethod.POST)
-//    public String sellProduct(@RequestBody SaleModel sale, Authentication authentication){
-//         Users salesRepresentative= userRepo.getUserByUsername(get
-//    }
 
 }
