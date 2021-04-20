@@ -16,11 +16,6 @@ public class Role {
     @Column(name="name")
     private String name;
 
-//
-//    public Role() {
-//       super();
-//    }
-
     @ManyToMany(mappedBy="roles")
     private List<Users> users;
 
